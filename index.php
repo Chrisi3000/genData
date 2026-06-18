@@ -1,14 +1,6 @@
 <?php
 
-set_error_handler(function ($severity, $message, $filename, $lineno) {
-    throw new ErrorException($message, 0, $severity, $filename, $lineno);
-});
-
-spl_autoload_register(function ($class_name) {
-    require_once implode("/", explode("_", $class_name)) . '.php';
-});
-
-session_start();
+require_once 'Utils/Dispatcher.php';
 
 $dispatcher = new Utils_Dispatcher();
 $dispatcher->dispatch();
