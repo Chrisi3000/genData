@@ -1,0 +1,40 @@
+<?php include __DIR__ . "/../_header.phtml"; ?>
+<?php /** @var Domains_GeneDataItem $data */ ?>
+
+    <a href="/geneData/GeneDataItem">Back</a>
+    <?php if ($data) { ?>
+        <form>
+            <div class="form-group">
+                <label>Id</label>
+                <input type="number" id="entry_id" class="form-control-plaintext"
+                       value="<?=$data->id?>" readonly>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="name" class="form-control-plaintext"
+                       value="<?=$data->name?>">
+            </div>
+            <div class="form-group">
+                <label>Entry</label>
+                <input type="date" id="entry" class="form-control-plaintext"
+                       value="<?=$data->entry?>">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" id="description" class="form-control-plaintext"
+                       value="<?=$data->description?>">
+            </div>
+            <div class="form-group">
+                <label>Expiration date</label>
+                <input type="date" id="exp" class="form-control-plaintext"
+                       value="<?=$data->exp?>">
+            </div>
+            <br>
+            <br>
+            <div id="json-representation"></div>
+        </form>
+    <?php } else { ?>
+        <div>No data found.</div>
+    <?php } ?>
+
+<?php include __DIR__ . "/../_footer.phtml"; ?>

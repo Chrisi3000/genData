@@ -1,0 +1,40 @@
+<?php include __DIR__ . "/../_header.phtml"; ?>
+<?php /** @var Domains_GeneDataItem $data */ ?>
+    <?php if($data) { ?>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>GeneName</th>
+                    <th>GeneSymbol</th>
+                    <th>aliases</th>
+                    <th>position</th>
+                    <th>function</th>
+                    <th>organism</th>
+                    <th>reviewed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    foreach ($data as $obj){
+                ?>
+                   <tr>
+                       <td><?=$obj->id?></td>
+                       <td><?=$obj->genename?></td>
+                       <td><?=$obj->GeneSymbol?></td>
+                       <td><?=$obj->aliases?></td>
+                       <td><?=$obj->position?></td>
+                       <td><?=$obj->function?></td>
+                       <td><?=$obj->organism?></td>
+                       <td><?=$obj->reviewed?></td>
+                   </tr>
+                 <?php
+                    }
+                ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        No data found.
+    <?php } ?>
+
+<?php include __DIR__ . "/../_footer.phtml"; ?>
