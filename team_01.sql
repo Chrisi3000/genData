@@ -40,7 +40,67 @@ VALUES
  'ABCC7',
  '7q31.2',
  NULL,
- 'Homo sapiens', 0);
+ 'Homo sapiens', 0),
+
+(4, 'Myosin Heavy Chain 7', 'MYH7',
+'β-MHC',
+'14q11.2',
+'Motor protein involved in cardiac muscle contraction',
+'Homo sapiens', 1),
+
+(5, 'Insulin', 'INS',
+'Insulin hormone',
+'11p15.5',
+'Regulates glucose uptake and metabolism',
+'Homo sapiens', 1),
+
+(6, 'p53 Tumor Suppressor (mouse)', 'Trp53',
+ 'p53',
+ '11B2',
+ 'Regulates cell cycle and apoptosis in response to DNA damage',
+ 'Mus musculus', 0),
+
+(7, 'Albumin', 'Alb',
+ 'Serum albumin',
+ '5qE2',
+ 'Maintains oncotic pressure and transports molecules in blood plasma',
+ 'Mus musculus', 1),
+
+(8, 'Hemoglobin subunit beta (rat)', 'Hbb',
+ 'β-globin',
+ '3q11',
+ 'Oxygen transport in blood',
+ 'Rattus norvegicus', 1),
+
+(9, 'Cytochrome c oxidase subunit I', 'COX1',
+ 'COI',
+ 'MT-CO1',
+ 'Essential component of mitochondrial electron transport chain',
+ 'Rattus norvegicus', 0),
+
+(10, 'GATA binding protein 1', 'gata1',
+ 'GATA-1',
+ 'chr1',
+ 'Transcription factor important for erythropoiesis',
+ 'Danio rerio', 1),
+
+(11, 'Fibroblast growth factor 8', 'fgf8',
+ 'FGF8',
+ 'chr12',
+ 'Key role in embryonic development and cell signaling',
+ 'Danio rerio', 1),
+
+(12, 'Casein alpha s1', 'CSN1S1',
+ 'alpha-S1 casein',
+ '6q31',
+ 'Milk protein involved in nutrition of offspring',
+ 'Bos taurus', 1),
+
+(13, 'Growth hormone', 'GH1',
+ 'Somatotropin',
+ '19q13',
+ 'Stimulates growth, cell reproduction and regeneration',
+ 'Bos taurus', 0);
 
 -- create table user 
 
