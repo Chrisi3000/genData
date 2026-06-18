@@ -2,7 +2,22 @@
 
 class Models_GeneDataItem extends Models_Base {
     public function findAll(): array {
-        $statement = "SELECT id, genename, GeneSymbol, aliases, position, function, organism, reviewed FROM GeneDataItem";
+        $statement = "SELECT 
+                        g.id,
+                        g.genename,
+                        g.genesymbol,
+                        g.aliases,
+                        g.position,
+                        g.function,
+                        g.organism_id,
+                        o.latin_name AS organism,
+                        g.reviewed,
+                        g.created_by,
+                        u.username as creator
+                    FROM genedataitem g
+                    JOIN organism o ON o.id = g.organism_id
+                    JOIN user u ON u.id = g.created_by";
+
 
         $statement = $this->connection->query($statement);
         $res = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -13,9 +28,22 @@ class Models_GeneDataItem extends Models_Base {
     }
 
     public function findById($id): Domains_GeneDataItem {
-        $statement = "SELECT id, genename, GeneSymbol, aliases, position, function, organism, reviewed
-                      FROM GeneDataItem 
-                      WHERE id = :id";
+        $statement = "SELECT 
+                        g.id,
+                        g.genename,
+                        g.genesymbol,
+                        g.aliases,
+                        g.position,
+                        g.function,
+                        g.organism_id,
+                        o.latin_name AS organism,
+                        g.reviewed,
+                        g.created_by,
+                        u.username as creator
+                    FROM genedataitem g
+                    JOIN organism o ON o.id = g.organism_id
+                    JOIN user u ON u.id = g.created_by
+                    WHERE g.id = :id";
 
         $statement = $this->connection->prepare($statement);
         $statement->execute([":id" => $id]);

@@ -9,8 +9,10 @@ class Domains_GeneDataItem extends Domains_Base{
             "aliases" => null,
             "position" => null,
             "function" => null,
+            "organism_id" => null,
             "organism" => null,
-            "reviewed" => null
+            "reviewed" => null,
+            "created_by" => null,
         ];
 
         parent::__construct($data);

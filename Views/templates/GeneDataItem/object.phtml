@@ -27,7 +27,7 @@
                     <th>GeneSymbol</th>
                     <td>
                         <span class="badge bg-secondary">
-                            <?=$data->GeneSymbol?>
+                            <?=$data->genesymbol?>
                         </span>
                     </td>
                 </tr>
@@ -57,6 +57,10 @@
                         <?php $reviewedValue = $data->reviewed; ?>
                         <?php include __DIR__ . "/_reviewed_badge.phtml"; ?>
                     </td>
+                </tr>
+                <tr>
+                    <th>Created by</th>
+                    <td><?=$data->creator?></td>
                 </tr>
             </tbody>
         </table>
