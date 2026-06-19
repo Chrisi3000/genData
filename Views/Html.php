@@ -39,7 +39,6 @@ class Views_Html extends Views_Base
             $template = "error.phtml";
         }
 
-        // 4. Template einbinden
         include "templates/" . $template;
         exit;
     }
