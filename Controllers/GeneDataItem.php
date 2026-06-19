@@ -19,5 +19,4 @@ class Controllers_GeneDataItem extends Controllers_Base {
 
         $this->view->render($data);
     }
-
 }

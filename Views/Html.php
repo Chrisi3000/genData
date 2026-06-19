@@ -9,13 +9,24 @@ class Views_Html extends Views_Base
     {
         if (is_array($data)) {
             $template = "table.phtml";
-        } else{
+        }
+        else if($data === "login"){
+            $template = "login.phtml";
+        }
+        else if($data === "register"){
+            $template = "register.phtml";
+        }
+        else{
             $template = "object.phtml";
         }
 
         if(is_readable(dirname(__FILE__) . "/templates/" .
             $this->resource_name . "/" . $template)){
             $template = $this->resource_name . "/" . $template;
+        }
+
+        if($data instanceof Exception){
+            $template = "error.phtml";
         }
 
         include "templates/" . $template;
