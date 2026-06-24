@@ -11,6 +11,34 @@ body {
     background: linear-gradient(135deg, var(--color-green), var(--color-green-light));
 }
 
+.site-header h1 {
+    margin: 0;
+}
+
+.site-header-actions {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-shrink: 0;
+}
+
+.site-header .btn-outline-light:hover,
+.site-header .btn-outline-light:focus {
+    color: var(--color-green);
+}
+
+@media (max-width: 575.98px) {
+    .site-header .container {
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+
+    .site-header-actions {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}
+
 .gene-data-table {
     background-color: #ffffff;
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);

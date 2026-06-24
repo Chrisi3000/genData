@@ -8,11 +8,6 @@
             Add User
         </a>
     <?php endif; ?>
-    <?php if (Utils_Login::is_logged_in()): ?>
-        <a href="/geneData/Logout" class="btn btn-secondary">
-            Logout
-        </a>
-    <?php endif; ?>
 </div>
 
 <?php if (!Utils_Login::is_admin()) {
