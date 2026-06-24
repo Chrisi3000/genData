@@ -11,6 +11,7 @@
                     <th>Organism</th>
                     <th>Reviewed</th>
                     <th>Details</th>
+                    <th>Update</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +38,12 @@
                            <a href="/geneData/GeneDataItem/<?= $obj->id?>"
                               class="details-button btn btn-sm rounded-circle">
                                &#128269;
+                           </a>
+                       </td>
+                       <td>
+                           <a href="/geneData/update/<?= $obj->id ?>"
+                              class="update-button btn btn-sm btn-warning">
+                               ✏️
                            </a>
                        </td>
                    </tr>
