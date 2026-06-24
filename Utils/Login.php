@@ -19,6 +19,8 @@ class Utils_Login {
 
     static function delete_session(){
         unset($_SESSION['user']);
+        unset($_SESSION['is_admin']);
+        unset($_SESSION['logged_in']);
     }
 
     static function check_session_or_error(): void{

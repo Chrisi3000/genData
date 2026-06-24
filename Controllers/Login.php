@@ -18,8 +18,17 @@ class Controllers_Login extends Controllers_Base {
            $this->guest();
        }
 
-       $username = $_POST["username"];
-       $pw = $_POST["password"];
+       $input_username = $_POST["username"];
+       $input_password = $_POST["password"];
+
+       if($input_username == null || $input_password == null){
+           $_SESSION["login_error"] = "Username or password is not entered.";
+           header("Location: /geneData/Login");
+           exit();
+       }
+
+       $username = $input_username;
+       $pw = $input_password;
 
        $user = $this->model->login($username, $pw);
        if($user == null){

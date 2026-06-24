@@ -1,10 +1,10 @@
 <?php include __DIR__ . "/../_header.phtml"; ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <?php if (Utils_Login::is_admin()): ?>
-        <a href="/geneData/GeneDataItem" class="btn btn-secondary">
+        <a href="/geneData/GeneDataItem"  class="btn btn-outline-success rounded-pill px-3">
             Gene Table
         </a>
-        <a href="/geneData/Admin/users" class="btn btn-secondary">
+        <a href="/geneData/Admin/users"  class="btn btn-outline-success rounded-pill px-3">
             Add User
         </a>
     <?php endif; ?>
@@ -33,7 +33,7 @@
                 <td class="fw-semibold"><?=$obj->id?></td>
                 <td><?=$obj->username?></td>
                 <td><?=$obj->is_admin?></td>
-                <td><button onclick="delete_user(<?= $obj["id"] ?>)" class="btn btn-danger">Delete</button></td>
+                <td><button onclick="delete_user(<?=$obj->id?>)" class="btn btn-danger">Delete</button></td>
             </tr>
             <?php
         }
@@ -50,17 +50,9 @@
 
 <script>
     function delete_user(id){
-        fetch("./geneData/Admin/users/" + id, {
+        fetch("./Admin/users/" + id, {
             method: "DELETE"
         }).then(() => location.reload());
-    }
-
-    function openForm() {
-        document.getElementById("myForm").style.display = "block";
-    }
-
-    function closeForm() {
-        document.getElementById("myForm").style.display = "none";
     }
 </script>
 
