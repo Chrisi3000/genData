@@ -2,6 +2,7 @@
 
 class Models_Organism extends Models_Base
 {
+    // fetches all database organism rows and returns them mapped into domain objects ordered alphabetically
     public function findAll(): array
     {
         $query = "SELECT id, name, latin_name
@@ -14,25 +15,5 @@ class Models_Organism extends Models_Base
         return array_map(function ($item) {
             return new Domains_Organism($item);
         }, $result);
-    }
-
-    public function findById($id): Domains_Organism
-    {
-        $query = "SELECT id, name, latin_name
-                  FROM organism
-                  WHERE id = :id";
-
-        $statement = $this->connection->prepare($query);
-        $statement->execute([
-            ":id" => $id
-        ]);
-
-        $data = $statement->fetch(PDO::FETCH_ASSOC);
-
-        if (!$data) {
-            throw new Exceptions_NotFound();
-        }
-
-        return new Domains_Organism($data);
     }
 }
