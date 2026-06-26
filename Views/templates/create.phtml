@@ -1,27 +1,60 @@
 <?php include __DIR__ . "/_header.phtml"; ?>
 
+    <a href="/geneData/GeneDataItem"
+       class="btn btn-outline-success rounded-pill px-3">
+        &#8592; Back
+    </a>
+
     <h2>Gene anlegen</h2>
 
     <form method="post" action="/geneData/GeneDataItem/post">
 
         <div class="mb-3">
             <label>Gene Name</label>
-            <input type="text" name="genename" class="form-control">
+            <input type="text" name="genename" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label>Gene Symbol</label>
-            <input type="text" name="genesymbol" class="form-control">
+            <input type="text" name="genesymbol" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Aliases</label>
+            <input type="text" name="aliases" class="form-control">
         </div>
 
         <div class="mb-3">
             <label>Position</label>
-            <input type="text" name="position" class="form-control">
+            <input type="text" name="position" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Function</label>
+            <textarea name="function" class="form-control"></textarea>
         </div>
 
         <div class="mb-3">
             <label>Organism</label>
-            <input type="text" name="organism" class="form-control">
+
+            <select name="organism_id" class="form-control" required>
+                <option value="">-- bitte wählen --</option>
+
+                <?php foreach ($data as $organism): ?>
+                    <option value="<?= $organism->id ?>">
+                        <?= htmlspecialchars($organism->name) ?>
+                        <?php if ($organism->latin_name): ?>
+                            (<?= htmlspecialchars($organism->latin_name) ?>)
+                        <?php endif; ?>
+                    </option>
+                <?php endforeach; ?>
+
+            </select>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="reviewed" value="1" class="form-check-input" id="reviewed">
+            <label class="form-check-label" for="reviewed">Reviewed</label>
         </div>
 
         <button type="submit" class="btn btn-primary">
@@ -30,4 +63,4 @@
 
     </form>
 
-<?php include __DIR__."/_footer.phtml"; ?>
+<?php include __DIR__ . "/_footer.phtml"; ?>

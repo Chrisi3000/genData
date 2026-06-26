@@ -5,7 +5,7 @@ class Domains_GeneDataItem extends Domains_Base{
         $this->data = [
             "id" => null,
             "genename" => null,
-            "GeneSymbol" => null,
+            "genesymbol" => null,
             "aliases" => null,
             "position" => null,
             "function" => null,

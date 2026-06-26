@@ -66,4 +66,29 @@ class Models_GeneDataItem extends Models_Base {
         }
     }
 
+    public function insert(Domains_GeneDataItem $gene): Domains_GeneDataItem
+    {
+        $query = "INSERT INTO genedataitem
+        (genename, genesymbol, aliases, position, function, organism_id, reviewed, created_by)
+        VALUES
+        (:genename, :genesymbol, :aliases, :position, :function, :organism_id, :reviewed, :created_by)";
+
+        $statement = $this->connection->prepare($query);
+
+        $statement->execute([
+            ":genename"    => $gene->genename,
+            ":genesymbol"  => $gene->genesymbol,
+            ":aliases"     => $gene->aliases,
+            ":position"    => $gene->position,
+            ":function"    => $gene->function,
+            ":organism_id" => $gene->organism_id,
+            ":reviewed"    => $gene->reviewed,
+            ":created_by"  => $gene->created_by
+        ]);
+
+        $id = $this->connection->lastInsertId();
+
+        return $this->findById($id);
+    }
+
 }

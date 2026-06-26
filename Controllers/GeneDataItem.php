@@ -22,17 +22,28 @@ class Controllers_GeneDataItem extends Controllers_Base {
 
     public function create()
     {
-        $this->view->render(null);
+        $organismModel = new Models_Organism();
+        $organisms = $organismModel->findAll();
+
+        $this->view->render($organisms);
     }
 
     public function post()
     {
-        $obj = new Domains_GeneDataItem($_POST);
-        $data = $this->model->insert($obj);
+        if (!Utils_Login::is_logged_in()) {
+            throw new Exceptions_Unauthorized("Unauthorized");
+        }
 
-        http_response_code(302);
-        header('Location: /geneData/GeneDataItem/' . $data->id);
-        die();
+        $data = $_POST;
+
+        $data["reviewed"] = isset($data["reviewed"]) ? 1 : 0;
+        $data["created_by"] = $_SESSION["user_id"];
+
+        $obj = new Domains_GeneDataItem($data);
+        $result = $this->model->insert($obj);
+
+        header("Location: /geneData/GeneDataItem/" . $result->id);
+        exit();
     }
 
     public function put()
