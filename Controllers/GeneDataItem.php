@@ -52,17 +52,6 @@ class Controllers_GeneDataItem extends Controllers_Base {
         $this->view->render($data);
     }
 
-    public function delete()
-    {
-        if (!isset($this->params[0])) {
-            throw new Exception("Id not found");
-        }
-
-        $this->model->delete($this->params[0]);
-
-        http_response_code(204);
-    }
-
     public function delete() {
         if(!Utils_Login::is_logged_in()){
             throw new Exceptions_Unauthorized("Unauthorized");
