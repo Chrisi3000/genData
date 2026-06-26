@@ -1,6 +1,7 @@
 <?php
 
 class Models_GeneDataItem extends Models_Base {
+    // queries all raw gene records utilizing a left join to ensure continuity when data creators are removed
     public function findAll(): array {
         $statement = "SELECT 
                         g.id,
@@ -22,11 +23,13 @@ class Models_GeneDataItem extends Models_Base {
         $statement = $this->connection->query($statement);
         $res = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+        // loops through the data matrix to transform row records into structural domains
         return array_map(function($item) {
             return new Domains_GeneDataItem($item);
         }, $res);
     }
 
+    // single row fetch targeting specific database record based on identification key inputs
     public function findById($id): Domains_GeneDataItem {
         $statement = "SELECT 
                         g.id,
@@ -56,6 +59,7 @@ class Models_GeneDataItem extends Models_Base {
         }
     }
 
+    // drop target row based on key arguments and guard with exception flags if nothing changes
     public function delete($id): void {
         $query = "DELETE FROM genedataitem WHERE id = :id";
         $statement = $this->connection->prepare($query);
@@ -66,6 +70,7 @@ class Models_GeneDataItem extends Models_Base {
         }
     }
 
+    // registers fresh datasets inside information matrices and returns the fully mapped instance
     public function insert(Domains_GeneDataItem $gene): Domains_GeneDataItem
     {
         $query = "INSERT INTO genedataitem
@@ -91,6 +96,7 @@ class Models_GeneDataItem extends Models_Base {
         return $this->findById($id);
     }
 
+    // forces exception error handling and updates current entity row based on internal object states
     public function update(Domains_GeneDataItem $obj) {
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -106,6 +112,7 @@ class Models_GeneDataItem extends Models_Base {
 
         $stmt = $this->connection->prepare($sql);
 
+        // accesses target domain internals safely through standard format serializations
         $dataArray = $obj->jsonSerialize();
 
         return $stmt->execute([
@@ -119,5 +126,4 @@ class Models_GeneDataItem extends Models_Base {
             ':id'         => (int)($dataArray['id'] ?? 0)
         ]);
     }
-
 }

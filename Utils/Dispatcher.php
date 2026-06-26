@@ -14,16 +14,17 @@ class Utils_Dispatcher
         $path_params = array_filter(array_slice($url_elements, 2));
 
         $verb = strtolower($_SERVER['REQUEST_METHOD']);
-            if ($verb === "get" && isset($path_params[0]) && $path_params[0] === "create") {
-                $verb = "create";
-                array_shift($path_params);
-            }
+        if ($verb === "get" && isset($path_params[0]) && $path_params[0] === "create") {
+            $verb = "create";
+            array_shift($path_params);
+        }
 
         $action = null;
 
+        // Checks if the first URL parameter defines a specific action like create or edit
         if (isset($path_params[0]) && in_array($path_params[0], ['create', 'edit'])) {
             $action = $path_params[0];
-            array_shift($path_params);
+            array_shift($path_params); // Removes create/edit from parameters so only IDs/arguments remain
         }
 
         $view = new Views_Html($resource_type, $verb, $path_params);
@@ -32,6 +33,7 @@ class Utils_Dispatcher
 
         try {
 
+            // Simulates PUT/DELETE via standard POST requests using a hidden _method field
             if ($verb === "post" && isset($_POST['_method'])) {
                 $override = strtolower($_POST['_method']);
                 if (in_array($override, ['put', 'delete'])) {
@@ -39,6 +41,7 @@ class Utils_Dispatcher
                 }
             }
 
+            // Parses incoming raw data stream into global variables for non-POST data types
             if ($verb === "put") {
                 parse_str(file_get_contents("php://input"), $GLOBALS["_PUT"]);
             }
@@ -52,8 +55,10 @@ class Utils_Dispatcher
                 $GLOBALS["_PATCH"] = json_decode(file_get_contents("php://input"), true);
             }
 
+            // Prioritizes explicit action methods over HTTP fallback verbs
             if ($action && method_exists($controller, $action)) {
-            $controller->$action();
+                $controller->$action();
+                // Terminates execution instantly for API requests to prevent the accidental guest session overwrite below
                 if (in_array($verb, ['put', 'delete', 'patch'])) {
                     exit();
                 }
@@ -66,6 +71,7 @@ class Utils_Dispatcher
                 throw new Exception("Method not allowed");
             }
 
+            // If the user has no authenticated session state register them automatically as a guest
             if (!Utils_Login::is_logged_in() && !isset($_SESSION["user"])) {
                 Utils_Login::register_guest();
             }

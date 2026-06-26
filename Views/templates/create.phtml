@@ -39,7 +39,7 @@
 
             <select name="organism_id" class="form-select" required>
                 <option value="" disabled selected>-- please choose --</option>
-
+                <!--for for organism selector-->
                 <?php foreach ($data as $organism): ?>
                     <option value="<?= $organism->id ?>">
                         <?= htmlspecialchars($organism->name) ?>

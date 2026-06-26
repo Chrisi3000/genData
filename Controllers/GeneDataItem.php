@@ -5,11 +5,13 @@ require_once "Base.php";
 class Controllers_GeneDataItem extends Controllers_Base {
     private $model;
 
+    // hooks resource-specific domain data persistency layers to the execution scope
     public function __construct(Views_Base $view, array $params) {
         parent::__construct($view, $params);
         $this->model = new Models_GeneDataItem();
     }
 
+    // handles collection fetch queries or targets a single row based on parameter parameters
     public function get(){
         if($this->params){
             $data = $this->model->findById($this->params[0]);
@@ -20,6 +22,7 @@ class Controllers_GeneDataItem extends Controllers_Base {
         $this->view->render($data);
     }
 
+    // reads support datasets to provide structured selectable collection choices down to views
     public function create()
     {
         $organismModel = new Models_Organism();
@@ -28,6 +31,7 @@ class Controllers_GeneDataItem extends Controllers_Base {
         $this->view->render($organisms);
     }
 
+    // processes creation submissions, merges default parameters, and redirects to resource indices
     public function post()
     {
         if (!Utils_Login::is_logged_in()) {
@@ -48,52 +52,11 @@ class Controllers_GeneDataItem extends Controllers_Base {
 
     public function put()
     {
-        if (!Utils_Login::is_logged_in()) {
-            http_response_code(401);
-            echo json_encode(["error" => "Unauthorized"]);
-            exit();
-        }
-
-        $input = json_decode(file_get_contents("php://input"), true);
-
-        if (isset($this->params[0]) && !isset($input["id"])) {
-            $input["id"] = $this->params[0];
-        }
-
-        if (!isset($input["id"])) {
-            http_response_code(400);
-            echo json_encode(["error" => "Id not found"]);
-            exit();
-        }
-
-        $input["reviewed"] = (isset($input["reviewed"]) && $input["reviewed"] == "1") ? 1 : 0;
-
-        $_POST = $input;
-        $_REQUEST = array_merge($_REQUEST, $input);
-
-        try {
-            $obj = new Domains_GeneDataItem($input);
-
-            $this->model->update($obj);
-
-            http_response_code(200);
-            header('Content-Type: application/json');
-            echo json_encode(["success" => true]);
-            exit();
-        } catch (Exception $e) {
-            http_response_code(500);
-            header('Content-Type: application/json');
-            echo json_encode(["error" => $e->getMessage()]);
-            exit();
-        }
+        $this->executeUpdate();
     }
 
     public function edit()
     {
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
-
         if (!Utils_Login::is_logged_in()) {
             throw new Exceptions_Unauthorized("Unauthorized");
         }
@@ -102,51 +65,46 @@ class Controllers_GeneDataItem extends Controllers_Base {
             throw new Exception("Id not found");
         }
 
-
+        // if the client sends a put request, handle data processing instantly
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            $input = json_decode(file_get_contents("php://input"), true);
-
-            if (!isset($input["id"])) {
-                $input["id"] = $this->params[0];
-            }
-
-            $input["reviewed"] = (!empty($input["reviewed"]) && $input["reviewed"] === true) ? 1 : 0;
-
-            $_POST = $input;
-
-            try {
-                $obj = new Domains_GeneDataItem($input);
-                echo "<h4>Inhalt von \$input:</h4><pre>" . print_r($input, true) . "</pre>";
-                echo "<h4>Inhalt vom Objekt:</h4><pre>" . print_r($obj, true) . "</pre>";
-                exit;
-                $this->model->update($obj);
-
-                http_response_code(200);
-                header('Content-Type: application/json');
-                echo json_encode(["success" => true]);
-                exit();
-            } catch (Exception $e) {
-                http_response_code(500);
-                header('Content-Type: application/json');
-                echo json_encode(["error" => $e->getMessage()]);
-                exit();
-            }
+            $this->executeUpdate();
         }
 
-        $geneItem = $this->model->findById($this->params[0]);
-        if (!$geneItem) {
-            throw new Exception("Gene not found");
-        }
-
-        $organismModel = new Models_Organism();
-        $organisms = $organismModel->findAll();
-
+        // default get route: fetch data and render template view
         $this->view->render([
-            'gene' => $geneItem,
-            'organisms' => $organisms
+            'gene' => $this->model->findById($this->params[0]),
+            'organisms' => (new Models_Organism())->findAll()
         ]);
     }
 
+    // private helper to handle payload decoding and model database execution
+    private function executeUpdate()
+    {
+        if (!Utils_Login::is_logged_in()) {
+            exit(json_encode(["error" => "Unauthorized"], http_response_code(401)));
+        }
+
+        $input = json_decode(file_get_contents("php://input"), true);
+        $input["id"] ??= $this->params[0] ?? null;
+
+        if (!$input["id"]) {
+            exit(json_encode(["error" => "Id not found"], http_response_code(400)));
+        }
+
+        // normalize boolean or string flags into strict database integers
+        $input["reviewed"] = !empty($input["reviewed"]) && ($input["reviewed"] === true || $input["reviewed"] == "1") ? 1 : 0;
+        $_POST = $input;
+
+        try {
+            $this->model->update(new Domains_GeneDataItem($input));
+            exit(json_encode(["success" => true]));
+        } catch (Exception $e) {
+            http_response_code(500);
+            exit(json_encode(["error" => $e->getMessage()]));
+        }
+    }
+
+    // purges designated row parameters directly from database structures using core id elements
     public function delete() {
         if(!Utils_Login::is_logged_in()){
             throw new Exceptions_Unauthorized("Unauthorized");

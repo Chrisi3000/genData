@@ -1,6 +1,7 @@
 <?php
 
 class Models_User extends Models_Base{
+    // fetches user and validates raw password against the stored secure hash
     public function login($user, $password) : ?Domains_User {
         $query = "SELECT id, username, password, is_admin 
                 FROM user WHERE username = :username";
@@ -11,6 +12,7 @@ class Models_User extends Models_Base{
             return null;
         }
 
+        // instantiates domain object to safely verify the encrypted password string
         $user = new Domains_User($data);
         if(password_verify($password, $user->password)){
             return $user;
@@ -18,12 +20,14 @@ class Models_User extends Models_Base{
         return null;
     }
 
+    // inserts a new user record with standard column credentials
     public function createUser($user, $password) {
         $query = "INSERT INTO user (username, password) VALUES (:username, :password)";
         $statement = $this->connection->prepare($query);
         $statement->execute([":username" => $user, ":password" => $password]);
     }
 
+    // returns raw associative array user dataset matching a specific unique username
     public function findByUsername($user) {
         $query = "SELECT * FROM user WHERE username = :username";
         $statement = $this->connection->prepare($query);
@@ -31,6 +35,7 @@ class Models_User extends Models_Base{
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    // maps all database user rows into collections of typed domain entities
     public function findAll(): array {
         $statement = "SELECT id, username, is_admin FROM user";
 
@@ -42,6 +47,7 @@ class Models_User extends Models_Base{
         }, $res);
     }
 
+    // updates administrative privilege flag settings for a specific user id row
     public function setToAdmin($id, $is_admin) {
         $query = "UPDATE user SET is_admin = :is_admin WHERE id = :id";
         $statement = $this->connection->prepare($query);
@@ -54,6 +60,7 @@ class Models_User extends Models_Base{
         echo $statement->rowCount();
     }
 
+    // removes a user within an isolated database transaction block to safely clear foreign keys
     public function delete($id): void {
         if (!filter_var($id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]])) {
             throw new Exceptions_NotFound();
@@ -64,10 +71,12 @@ class Models_User extends Models_Base{
         $this->connection->beginTransaction();
 
         try {
+            // updates dependent records to avoid strict foreign key constraint blockages
             $query = "UPDATE genedataitem SET created_by = NULL WHERE created_by = :id";
             $statement = $this->connection->prepare($query);
             $statement->execute([":id" => $id]);
 
+            // removes the targeted user data row permanently from persistence layer
             $query = "DELETE FROM user WHERE id = :id";
             $statement = $this->connection->prepare($query);
             $statement->execute([":id" => $id]);
@@ -78,9 +87,9 @@ class Models_User extends Models_Base{
 
             $this->connection->commit();
         } catch (Throwable $e) {
+            // rolls back database alterations instantly to keep information safe on errors
             $this->connection->rollBack();
             throw $e;
         }
     }
-
 }
