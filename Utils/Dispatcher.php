@@ -5,8 +5,7 @@ require_once __DIR__ . "/../Views/Html.php";
 
 class Utils_Dispatcher
 {
-    public function dispatch()
-    {
+    public function dispatch() {
 
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $url_elements = explode("/", trim($path, "/"));
@@ -15,6 +14,10 @@ class Utils_Dispatcher
         $path_params = array_filter(array_slice($url_elements, 2));
 
         $verb = strtolower($_SERVER['REQUEST_METHOD']);
+            if ($verb === "get" && isset($path_params[0]) && $path_params[0] === "create") {
+                $verb = "create";
+                array_shift($path_params);
+            }
 
         $action = null;
 
@@ -42,6 +45,11 @@ class Utils_Dispatcher
 
             if ($verb === "delete") {
                 parse_str(file_get_contents("php://input"), $GLOBALS["_DELETE"]);
+            }
+
+            if ($verb === "patch") {
+                var_dump($verb);
+                $GLOBALS["_PATCH"] = json_decode(file_get_contents("php://input"), true);
             }
 
             if ($action && method_exists($controller, $action)) {
