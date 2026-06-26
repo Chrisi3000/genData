@@ -1,0 +1,42 @@
+@baseUrl = http://localhost/geneData
+@contentType = application/json
+
+### get all genes
+GET {{baseUrl}}/GeneDataItem
+Accept: application/json
+
+
+### get existing gene
+GET {{baseUrl}}/GeneDataItem/1
+Accept: application/json
+
+
+### add new gen
+POST {{baseUrl}}/GeneDataItem
+Content-Type: application/x-www-form-urlencoded
+
+genename=Fibroblast growth factor 8
+    &genesymbol=FGF8
+    &aliases=fgf8, heparin-binding growth factor 8
+    &position=chr12
+    &function=Key role in embryonic development and cell signaling
+    &organism_id=4
+    &reviewed=1
+
+
+### update gene
+PUT {{baseUrl}}/GeneDataItem/1
+Content-Type: application/x-www-form-urlencoded
+
+id=1
+    &genename=Human Growth Hormone 1 (Updated)
+    &genesymbol=GH1
+    &aliases=GH, GHN
+    &position=17q23.3
+    &function=Stimulates growth and cell reproduction
+    &organism_id=1
+    &reviewed=1
+
+
+### delete gen
+DELETE {{baseUrl}}/GeneDataItem/13

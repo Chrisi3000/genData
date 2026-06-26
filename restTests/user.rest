@@ -1,0 +1,121 @@
+@baseUrl = http://localhost/geneData
+@contentType = application/json
+
+### continue as guest
+POST {{baseUrl}}/Login
+Content-Type: application/x-www-form-urlencoded
+
+action=guest
+
+### new user
+POST {{baseUrl}}/Register
+Content-Type: application/x-www-form-urlencoded
+
+username=api_tester
+    &password=TestPassword123!
+
+### login as registered user
+POST {{baseUrl}}/Login
+Content-Type: application/x-www-form-urlencoded
+
+username=api_tester
+    &password=TestPassword123!
+
+
+### logout
+GET {{baseUrl}}/Logout
+
+
+### continue as guest
+POST {{baseUrl}}/Login
+Content-Type: application/x-www-form-urlencoded
+
+action=guest
+
+
+### access admin without login
+GET {{baseUrl}}/Admin
+
+
+### access gene data without login
+GET {{baseUrl}}/GeneDataItem/1
+
+
+### get all users (admin view)
+GET {{baseUrl}}/Admin
+Accept: application/json
+
+
+### change user admin state (valid)
+PATCH {{baseUrl}}/Admin/2
+Content-Type: application/json
+
+{ "is_admin": true }
+
+
+### change user admin state (self-protection test)
+PATCH {{baseUrl}}/Admin/1
+Content-Type: application/json
+
+{ "is_admin": false }
+
+
+### delete user
+DELETE {{baseUrl}}/Admin/users/2
+
+
+### delete self (should be blocked)
+DELETE {{baseUrl}}/Admin/users/1
+
+
+### non-admin tries admin action
+PATCH {{baseUrl}}/Admin/2
+Content-Type: application/json
+
+{ "is_admin": true }
+
+
+### invalid user id
+PATCH {{baseUrl}}/Admin/99999
+Content-Type: application/json
+
+{ "is_admin": true }
+
+
+### invalid id format
+PATCH {{baseUrl}}/Admin/abc
+Content-Type: application/json
+
+{ "is_admin": true }
+
+
+### missing body
+PATCH {{baseUrl}}/Admin/2
+Content-Type: application/json
+
+
+### empty payload
+PATCH {{baseUrl}}/Admin/2
+Content-Type: application/json
+
+{}
+
+
+### duplicate state (no change expected)
+PATCH {{baseUrl}}/Admin/2
+Content-Type: application/json
+
+{ "is_admin": true }
+
+
+### wrong method on login
+DELETE {{baseUrl}}/Login
+
+
+### wrong method on admin
+POST {{baseUrl}}/Admin
+
+
+### wrong method on gene endpoint
+PATCH {{baseUrl}}/GeneDataItem/1
+

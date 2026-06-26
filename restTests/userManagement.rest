@@ -1,0 +1,35 @@
+@baseUrl = http://localhost/geneData
+@contentType = application/json
+
+### call users
+GET {{baseUrl}}/Admin
+Accept: application/json
+
+
+### change user admin state
+PATCH {{baseUrl}}/Admin/2
+Content-Type: {{contentType}}
+
+{ "is_admin": true }
+
+
+### delete user
+DELETE {{baseUrl}}/Admin/users/2
+
+
+### get admin without login
+GET {{baseUrl}}/Admin
+
+
+### logout then access admin
+GET {{baseUrl}}/Logout
+
+GET {{baseUrl}}/Admin
+
+
+### non-admin tries to promote user
+PATCH {{baseUrl}}/Admin/2
+Content-Type: application/json
+
+{ "is_admin": true }
+

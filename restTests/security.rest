@@ -1,0 +1,21 @@
+@baseUrl = http://localhost/geneData
+@contentType = application/json
+
+### SQL injection attempt
+POST {{baseUrl}}/Login
+Content-Type: application/x-www-form-urlencoded
+
+username=' OR 1=1 --
+    &password=abc
+
+
+### extreme long input
+POST {{baseUrl}}/GeneDataItem
+Content-Type: application/x-www-form-urlencoded
+
+genename=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+
+### negative id delete
+DELETE {{baseUrl}}/GeneDataItem/-1
+
