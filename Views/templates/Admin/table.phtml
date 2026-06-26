@@ -46,17 +46,11 @@
                     </td>
                     <td><?=$obj->is_admin?></td>
                     <td>
-                        <div class="table-actions">
-                            <?php if (Utils_Login::is_logged_in()): ?>
-                                <button type="button"
-                                        class="details-button btn btn-sm rounded-circle"
-                                        title="Delete"
-                                        aria-label="Delete"
-                                        onclick="deleteUser(<?= (int)$obj->id ?>)">
-                                    &#128465;&#65039;
-                                </button>
-                            <?php endif; ?>
-                        </div>
+                        <?php if ((int)$obj->id === (int)Utils_Login::get_user_id()): ?>
+                            <span class="text-muted">Current user</span>
+                        <?php else: ?>
+                            <button onclick="delete_user(<?= (int)$obj->id ?>)" class="btn btn-danger">Delete</button>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php
@@ -73,6 +67,21 @@
     <?php } ?>
 
 <script>
+    function delete_user(id){
+        if (!confirm("Delete this user?")) {
+            return;
+        }
+
+        fetch("/geneData/Admin/users/" + id, {
+            method: "DELETE"
+        }).then((response) => {
+            if (response.ok) {
+                location.reload();
+                return;
+            }
+
+            alert("User could not be deleted.");
+        });
 
     function setToAdmin(el, id) {
         console.log("CLICKED", id, el.checked);
