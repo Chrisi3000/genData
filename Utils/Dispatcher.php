@@ -22,6 +22,7 @@ class Utils_Dispatcher
 
             $verb = strtolower($_SERVER['REQUEST_METHOD']);
 
+
             if ($verb === "get" && isset($path_params[0]) && $path_params[0] === "create") {
                 $verb = "create";
                 array_shift($path_params);
@@ -45,6 +46,11 @@ class Utils_Dispatcher
 
             if ($verb === "delete") {
                 parse_str(file_get_contents("php://input"), $GLOBALS["_DELETE"]);
+            }
+
+            if ($verb === "patch") {
+                var_dump($verb);
+                $GLOBALS["_PATCH"] = json_decode(file_get_contents("php://input"), true);
             }
 
 

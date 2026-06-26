@@ -18,4 +18,39 @@ class Controllers_Admin extends Controllers_Base {
         $data = $this->model->findAll();
         $this->view->render($data);
     }
+
+    public function patch(){
+        if (!Utils_Login::is_admin()) {
+            http_response_code(403);
+            $this->view->render(new Exception("Unauthorized"));
+            return;
+        }
+
+        $id = isset($this->params[0]) ? (int)$this->params[0] : null;
+        $data = $GLOBALS["_PATCH"];
+
+        if ($id === null || $id === 0) {
+            http_response_code(400);
+            return;
+        }
+        if (!isset($data["is_admin"])) {
+            http_response_code(400);
+            return;
+        }
+
+        $current_logged_in_id = isset($_SESSION["id"]) ? (int)$_SESSION["id"] : null;
+
+        if ($current_logged_in_id !== null && $id === $current_logged_in_id) {
+            http_response_code(400);
+            echo json_encode(["error" => "Cannot change yourself"]);
+            return;
+        }
+
+        //save admin state
+        $this->model->setToAdmin($id, $data["is_admin"]);
+
+        http_response_code(200);
+        echo json_encode(["success" => true]);
+        return;
+    }
 }

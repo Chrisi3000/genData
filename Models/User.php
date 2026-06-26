@@ -41,4 +41,16 @@ class Models_User extends Models_Base{
             return new Domains_User($item);
         }, $res);
     }
+
+    public function setToAdmin($id, $is_admin) {
+        $query = "UPDATE user SET is_admin = :is_admin WHERE id = :id";
+        $statement = $this->connection->prepare($query);
+        $statement->execute([
+            ":is_admin" => $is_admin ? 1 : 0,
+            ":id" => $id
+        ]);
+
+        echo $id;
+        echo $statement->rowCount();
+    }
 }
