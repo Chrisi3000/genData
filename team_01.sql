@@ -30,6 +30,8 @@ INSERT INTO `organism` (`id`, `name`, `latin_name`) VALUES
 
 CREATE TABLE `user` (
     `id` int(11) NOT NULL,
+    `firstname` varchar(30) NOT NULL,
+    `lastname` varchar(30) NOT NULL,
     `username` varchar(30) NOT NULL,
     `password` varchar(65) NOT NULL,
     `is_admin` BOOLEAN NOT NULL DEFAULT 0
@@ -37,8 +39,10 @@ CREATE TABLE `user` (
 
 -- add fh_webphp user
 
-INSERT INTO `user` (`id`, `username`, `password`, `is_admin`) VALUES
+INSERT INTO `user` (`id`, `firstname`,`lastname`, `username`, `password`, `is_admin`) VALUES
     (1,
+     'John',
+     'Doe',
      'fh_webphp',
      '$2y$10$MylXELhq/xiye/a/xzlyzuB7nbtN/ipkPwAZ.4BX1uh.b8Ptzx3W6',
      1);

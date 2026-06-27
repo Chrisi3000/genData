@@ -3,7 +3,7 @@
 class Models_User extends Models_Base{
     // fetches user and validates raw password against the stored secure hash
     public function login($user, $password) : ?Domains_User {
-        $query = "SELECT id, username, password, is_admin 
+        $query = "SELECT id, firstname, lastname, username, password, is_admin 
                 FROM user WHERE username = :username";
         $statement = $this->connection->prepare($query);
         $statement->execute([":username" => $user]);
@@ -37,7 +37,7 @@ class Models_User extends Models_Base{
 
     // maps all database user rows into collections of typed domain entities
     public function findAll(): array {
-        $statement = "SELECT id, username, is_admin FROM user";
+        $statement = "SELECT id, firstname, lastname, username, is_admin FROM user";
 
         $statement = $this->connection->query($statement);
         $res = $statement->fetchAll(PDO::FETCH_ASSOC);
