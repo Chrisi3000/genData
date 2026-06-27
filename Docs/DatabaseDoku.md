@@ -316,3 +316,19 @@ JavaScript wird nicht für sicherheitsrelevante Validierung eingesetzt. Es dient
 - Sortieren der Gene-Tabelle per Klick auf eine Spaltenüberschrift
 - Anzeige der aktuell sortierten Spalte über Pfeile
 - Senden von Delete-Requests ohne separates Formular
+
+## Testfälle
+
+### User - Login / Register / Logout
+
+Überschrift
+
+Beschreibung Text Absatz
+
+![alt text](./chris/Screenshot%202026-06-27%20203147.png)
+
+### Admin Management
+
+### Main Page - Table, Details, Delete Genes
+
+### Add / Update Gene
