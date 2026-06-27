@@ -324,7 +324,74 @@ JavaScript wird nicht für sicherheitsrelevante Validierung eingesetzt. Es dient
 ## Testfälle
 
 ### User - Login / Register / Logout
+Durch den "Continue as Guest" wird der aktuelle User weitergeleitet auf die Hautpseite. Es muss kein Benutzername oder Password eingegeben werden. Die Person ist aber auch nicht eingeloggt, daher steht auf der Hauptseite statt dem Logout Knopf ein Login Knopf. Da Guests keine Gene anlegen können, fehlt auch hierfür der Knopf.
+![img_21.png](eva/img_21.png)
+![img_22.png](eva/img_22.png)
 
+Wenn man ohne sich anzumelden direkt die Url der Hauptseite eingibt, ist man automatisch als Guest-User angemeldet. Dadurch sieht man auch die Ansicht eines Guest-Users.
+![img_39.png](eva/img_39.png)
+
+User können sich durch das Eingeben ihres Benutzernamens und Passwort anmelden. Der aktuelle Testuser ist "sami" mit dem Passwort "pw".
+Auf der Hauptseite eines eingeloggten Users ist ein Logout Knopf und ein "Add Gene" Knopf zu sehen.
+![img_35.png](eva/img_35.png)
+
+Wenn beim Einloggen eines bestehenden Benutzers ein falsches Passwort oder ein falscher Benutzername eingegeben wird, sollte es zu einer Fehlermeldung kommen. 
+
+Test mit einem falschen Passwort:<br>
+<img src="eva/img_23.png" width="300" heigth="auto"/>
+<img src="eva/img_24.png" width="300" heigth="auto"/>
+
+Test mit einem falschen Benutzernamen:<br>
+<img src="eva/img_25.png" width="300" heigth="auto"/>
+<img src="eva/img_26.png" width="300" heigth="auto"/>
+
+Eingaben mit einem fehlenden Passwort oder mit einem fehlenden Username führen auch zu einer Fehlermeldung.
+
+Test mit einem fehlenden Passwort:<br>
+<img src="eva/img_27.png" width="300" heigth="auto"/>
+<img src="eva/img_28.png" width="300" heigth="auto"/>
+
+Test mit einem fehlenden Benutzernamen:<br>
+<img src="eva/img_29.png" width="300" heigth="auto"/>
+<img src="eva/img_30.png" width="300" heigth="auto"/>
+
+Der Login mit einem nicht existierendem Benutzer sollte zu einer Fehlermeldung führen. Das wäre der gleiche Fall wie bei einem falschen Benutzernamen.<br>
+<img src="eva/img_31.png" width="300" heigth="auto"/>
+<img src="eva/img_32.png" width="300" heigth="auto"/>
+
+Der Login für Admins funktioniert so wie bei normalen Benutzern. Jedoch sehen Admins auf der Hauptseite, neben den Buttons für normale User, einen Knopf für das User-Management.
+![img_33.png](eva/img_33.png)
+![img_34.png](eva/img_34.png)
+
+Neue User können sich selbst registrieren indem sie auf den "Register" Knopf drücken. Dadurch wird man auf eine Seite weitergeleitet, wo man den Vornamen, Nachnamen, Benutzernamen und ein Passwort eingeben muss.
+![img_40.png](eva/img_40.png)
+
+Wenn alle Felder ausgewählt sind und auf "Register" gedrückt wird, wird man weitergeleitet auf die Login Seite. Der neue User sollte nun auch in der Datenbank erscheinen und man kann sich mit ihm anmelden.
+<img src="eva/img_41.png" width="300" heigth="auto"/>
+<img src="eva/img_42.png" width="300" heigth="auto"/>
+![img_43.png](eva/img_43.png)
+![img_44.png](eva/img_44.png)
+
+Alle auszufüllenden Werte müssen durch den Benutzer bei der Registrierung ausgefüllt werden, ansonsten kommt es zu Fehlermeldungen.<br>
+<img src="eva/img_45.png" width="300" heigth="auto"/>
+<img src="eva/img_46.png" width="300" heigth="auto"/>
+<img src="eva/img_47.png" width="300" heigth="auto"/>
+<img src="eva/img_48.png" width="300" heigth="auto"/>
+
+Auch das eingeben eines existierendem Benutzernamens sollte zu einer Fehlermeldung führen.<br>
+<img src="eva/img_49.png" width="300" heigth="auto"/>
+<img src="eva/img_50.png" width="300" heigth="auto"/>
+![img_51.png](eva/img_51.png)
+
+Das Registrieren eines Users mit dem selben Vor- und Nachnamen sollte jedoch zu keinen Problemen führen und so erfolgreich durchlaufen. <br>
+<img src="eva/img_52.png" width="300" heigth="auto"/>
+![img_53.png](eva/img_53.png)
+
+Eingeloggte Benutzer, also auch Admin, werden nachdem sie den "Logout" Knopf auf der Hauptseite gedrückt haben wieder auf die Login-Seite geschickt. Sie sind nun aber ausgeloggt, das heißt wenn sie auf die Hauptseite gehen, haben sie die Ansicht eines Guest-Users.
+(Hier getestet mit einem Admin.)
+![img_36.png](eva/img_36.png)
+![img_37.png](eva/img_37.png)
+![img_38.png](eva/img_38.png)
 
 ### Admin Management
 (Die Testuser beginnen mit der Id 4, da davor schon andere Testuser erstellt wurden. Diese wurden aber vor den Tests wieder gelöscht.)
