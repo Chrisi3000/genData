@@ -7,39 +7,40 @@
 
     <h2>Add Gene</h2>
 
-    <form method="post" action="/geneData/GeneDataItem/post">
+    <form method="post" action="/geneData/GeneDataItem/post" class="needs-validation was-validated" novalidate>
 
         <div class="mb-3">
-            <label>Gene Name</label>
-            <input type="text" name="genename" class="form-control" required>
+            <label class="form-label">Gene Name</label>
+            <input type="text" name="genename" class="form-control" minlength="2" maxlength="255" required>
+            <div class="invalid-feedback">please enter a valid gene name (min 2 characters).</div>
         </div>
 
         <div class="mb-3">
-            <label>Gene Symbol</label>
-            <input type="text" name="genesymbol" class="form-control" required>
+            <label class="form-label">Gene Symbol</label>
+            <input type="text" name="genesymbol" class="form-control" pattern="[A-Za-z0-9\-]{2,20}" required>
+            <div class="invalid-feedback">please enter a valid symbol (2-20 alphanumeric characters or hyphens).</div>
         </div>
 
         <div class="mb-3">
-            <label>Aliases</label>
-            <input type="text" name="aliases" class="form-control">
+            <label class="form-label">Aliases</label>
+            <input type="text" name="aliases" class="form-control" maxlength="255">
         </div>
 
         <div class="mb-3">
-            <label>Position</label>
-            <input type="text" name="position" class="form-control" required>
+            <label class="form-label">Position</label>
+            <input type="text" name="position" class="form-control" placeholder="e.g., Chr1:1000-2000" minlength="3" maxlength="100" required>
+            <div class="invalid-feedback">please specify the chromosomal position profile mapping.</div>
         </div>
 
         <div class="mb-3">
-            <label>Function</label>
-            <textarea name="function" class="form-control"></textarea>
+            <label class="form-label">Function</label>
+            <textarea name="function" class="form-control" maxlength="2000"></textarea>
         </div>
 
         <div class="mb-3">
-            <label>Organism</label>
-
+            <label class="form-label">Organism</label>
             <select name="organism_id" class="form-select" required>
                 <option value="" disabled selected>-- please choose --</option>
-                <!--for for organism selector-->
                 <?php foreach ($data as $organism): ?>
                     <option value="<?= (int)$organism->id ?>">
                         <?= htmlspecialchars($organism->name) ?>
@@ -48,8 +49,8 @@
                         <?php endif; ?>
                     </option>
                 <?php endforeach; ?>
-
             </select>
+            <div class="invalid-feedback">please select a target host organism sequence.</div>
         </div>
 
         <div class="mb-3 form-check">
@@ -62,5 +63,18 @@
         </button>
 
     </form>
+
+    <script>
+        // intercepts fallback submission procedures to cancel execution if elements fail constraints
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('.needs-validation');
+            form.addEventListener('submit', (event) => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }, false);
+        });
+    </script>
 
 <?php include __DIR__ . "/_footer.phtml"; ?>

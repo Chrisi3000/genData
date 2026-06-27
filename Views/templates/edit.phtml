@@ -11,36 +11,39 @@ $organisms = $data['organisms'];
 
     <h2>Edit Gene: <?= htmlspecialchars($gene->genename) ?></h2>
 
-    <form id="editGeneForm">
+    <form id="editGeneForm" class="needs-validation was-validated" novalidate>
         <input type="hidden" name="id" id="geneId" value="<?= (int)$gene->id ?>">
 
         <div class="mb-3">
-            <label>Gene Name</label>
-            <input type="text" name="genename" class="form-control" value="<?= htmlspecialchars($gene->genename) ?>" required>
+            <label class="form-label">Gene Name</label>
+            <input type="text" name="genename" class="form-control" value="<?= htmlspecialchars($gene->genename) ?>" minlength="2" maxlength="255" required>
+            <div class="invalid-feedback">please enter a valid gene name (min 2 characters).</div>
         </div>
 
         <div class="mb-3">
-            <label>Gene Symbol</label>
-            <input type="text" name="genesymbol" class="form-control" value="<?= htmlspecialchars($gene->genesymbol) ?>" required>
+            <label class="form-label">Gene Symbol</label>
+            <input type="text" name="genesymbol" class="form-control" value="<?= htmlspecialchars($gene->genesymbol) ?>" pattern="[A-Za-z0-9\-]{2,20}" required>
+            <div class="invalid-feedback">please enter a valid symbol (2-20 alphanumeric characters or hyphens).</div>
         </div>
 
         <div class="mb-3">
-            <label>Aliases</label>
-            <input type="text" name="aliases" class="form-control" value="<?= htmlspecialchars($gene->aliases ?? '') ?>">
+            <label class="form-label">Aliases</label>
+            <input type="text" name="aliases" class="form-control" value="<?= htmlspecialchars($gene->aliases ?? '') ?>" maxlength="255">
         </div>
 
         <div class="mb-3">
-            <label>Position</label>
-            <input type="text" name="position" class="form-control" value="<?= htmlspecialchars($gene->position) ?>" required>
+            <label class="form-label">Position</label>
+            <input type="text" name="position" class="form-control" value="<?= htmlspecialchars($gene->position) ?>" minlength="3" maxlength="100" required>
+            <div class="invalid-feedback">please specify the chromosomal position profile mapping.</div>
         </div>
 
         <div class="mb-3">
-            <label>Function</label>
-            <textarea name="function" class="form-control"><?= htmlspecialchars($gene->function ?? '') ?></textarea>
+            <label class="form-label">Function</label>
+            <textarea name="function" class="form-control" maxlength="2000"><?= htmlspecialchars($gene->function ?? '') ?></textarea>
         </div>
 
         <div class="mb-3">
-            <label>Organism</label>
+            <label class="form-label">Organism</label>
             <select name="organism_id" class="form-select" required>
                 <?php foreach ($organisms as $organism): ?>
                     <option value="<?= (int)$organism->id ?>" <?= (int)$organism->id === (int)$gene->organism_id ? 'selected' : '' ?>>
@@ -48,6 +51,7 @@ $organisms = $data['organisms'];
                     </option>
                 <?php endforeach; ?>
             </select>
+            <div class="invalid-feedback">please select a target host organism sequence.</div>
         </div>
 
         <div class="mb-3 form-check">
@@ -59,32 +63,40 @@ $organisms = $data['organisms'];
     </form>
 
     <script>
-        document.getElementById('editGeneForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('editGeneForm');
 
-            const id = document.getElementById('geneId').value;
+            // forces immediate validation check state on initial layout script parsing
+            form.checkValidity();
 
-            // automatically gathers all fields with a name attribute
-            const payload = Object.fromEntries(new FormData(e.target));
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-            // fix checkbox behavior
-            payload.reviewed = document.getElementById('reviewed').checked ? "1" : "0";
+                // blocks asynchronous execution steps if current input elements violate constraints
+                if (!this.checkValidity()) {
+                    e.stopPropagation();
+                    return;
+                }
 
-            // send AJAX request
-            fetch("/geneData/GeneDataItem/" + id, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            })
-                .then(async res => {
-                    if (res.ok) {
-                        window.location.href = "/geneData/GeneDataItem/" + id;
-                    } else {
-                        const err = await res.json().catch(() => ({}));
-                        alert("Error: " + (err.error || "server error"));
-                    }
+                const id = document.getElementById('geneId').value;
+                const payload = Object.fromEntries(new FormData(e.target));
+                payload.reviewed = document.getElementById('reviewed').checked ? "1" : "0";
+
+                fetch("/geneData/GeneDataItem/" + id, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
                 })
-                .catch(() => alert("No connection to the server could be built."));
+                    .then(async res => {
+                        if (res.ok) {
+                            window.location.href = "/geneData/GeneDataItem/" + id;
+                        } else {
+                            const err = await res.json().catch(() => ({}));
+                            alert("Error: " + (err.error || "server error"));
+                        }
+                    })
+                    .catch(() => alert("No connection to the server could be built."));
+            });
         });
     </script>
 

@@ -505,9 +505,9 @@ Gene Name, Gene Symbol und Organism muss man ausfüllen.
 
 ![Gene Symbol required](./samuel/Gene_Symbol_Required.png)
 
-![Position required](./samuel/Position_Required.png)
+![Position required](./samuel/Position_required.png)
 
-![Organism required](./samuel/Organism_Required.png)
+![Organism required](./samuel/Organism_required.png)
 
 Das Drop-Down-Menü für Organism sieht so aus:
 
@@ -537,7 +537,7 @@ Nun soll das Test-Gen editiert werden. Dafür muss der Edit Knopf mit dem Bleist
 
 ![Update Button](./samuel/Edit_Test_Gene.png)
 
-Drückt man den Knopf kommt man zum Bearbeitungsformular. Die Parameter sind bereits ausgefüllt. Im Header steht das zu bearbeitende Gen.
+Drückt man den Knopf kommt man zum Bearbeitungsformular. Die Parameter sind bereits ausgefüllt. Im Header steht das zu bearbeitende Gen. Der Back Button führt zurück zur Übersicht.
 
 ![Edit Page Test Gene](./samuel/EditPage.png)
 
