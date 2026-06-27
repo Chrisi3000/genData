@@ -21,10 +21,10 @@ class Models_User extends Models_Base{
     }
 
     // inserts a new user record with standard column credentials
-    public function createUser($user, $password) {
-        $query = "INSERT INTO user (username, password) VALUES (:username, :password)";
+    public function createUser($user, $password, $fn, $ln) {
+        $query = "INSERT INTO user (username, password, firstname, lastname) VALUES (:username, :password, :firstname, :lastname)";
         $statement = $this->connection->prepare($query);
-        $statement->execute([":username" => $user, ":password" => $password]);
+        $statement->execute([":username" => $user, ":password" => $password, ":firstname" => $fn, ":lastname" => $ln]);
     }
 
     // returns raw associative array user dataset matching a specific unique username

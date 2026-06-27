@@ -19,6 +19,8 @@ class Controllers_Register extends Controllers_Base {
     public function post(){
         $username = $_POST["username"];
         $pw = $_POST["password"];
+        $fn = $_POST["firstname"];
+        $ln = $_POST["lastname"];
         // transforms raw user text into secure password hashes before storage
         $hash_password = password_hash($pw, PASSWORD_DEFAULT);
 
@@ -29,7 +31,7 @@ class Controllers_Register extends Controllers_Base {
             exit();
         }
 
-        $this->model->createUser($username, $hash_password);
+        $this->model->createUser($username, $hash_password, $fn, $ln);
 
         $user = $this->model->login($username, $pw);
 
