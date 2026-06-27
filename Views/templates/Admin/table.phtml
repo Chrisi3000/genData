@@ -20,6 +20,8 @@
             <tr>
                 <th>Id</th>
                 <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Admin</th>
                 <th>Admin State</th>
                 <th>Delete</th>
@@ -30,6 +32,8 @@
                 <tr>
                     <td class="fw-semibold"><?=$obj->id?></td>
                     <td><?=$obj->username?></td>
+                    <td><?=$obj->firstname?></td>
+                    <td><?=$obj->lastname?></td>
                     <td>
                         <div class="table-actions">
                             <?php if (Utils_Login::is_admin() && Utils_Login::get_user_id() != $obj->id): ?>
@@ -82,8 +86,10 @@
     }
 
     function setToAdmin(el, id) {
+        const newState = el.checked;
         console.log("CLICKED", id, el.checked);
         if (!confirm("Change admin state of user?")) {
+            el.checked = !newState;
             return;
         }
 
@@ -97,7 +103,8 @@
             })
         }).then(response => {
             if (response.ok) {
-                location.reload(); return;
+                location.reload();
+                return;
             }
             alert("Admin state could not be changed.");
         }).catch(err => {
