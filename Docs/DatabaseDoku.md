@@ -318,3 +318,30 @@ JavaScript wird nicht für sicherheitsrelevante Validierung eingesetzt. Es dient
 - Sortieren der Gene-Tabelle per Klick auf eine Spaltenüberschrift
 - Anzeige der aktuell sortierten Spalte über Pfeile
 - Senden von Delete-Requests ohne separates Formular
+
+## Testfälle
+
+### User - Login / Register / Logout
+
+
+### Admin Management
+
+### Main Page - Table, Details, Delete Genes
+
+Hier wird die Hauptseite mit der Gentabelle gezeigt. Hierbei sieht man die wichtigsten Spalten als Übersicht. Dabei ist ein Admin User eingeloggt, dementsprechend gibt es neben der Detail Ansicht auch die Auswahl zum Löschen oder Bearbeiten eines Gens, sowie zum Ergänzen eines neuen.
+
+![alt text](./chris/Screenshot%202026-06-27%20203147.png)
+
+Die Tabelle ist standardmäßig aufsteigend nach ID sortiert. Mit Klick in eine Spaltenüberschrift kann man die Sortierung auf eine andere Spalte ändern, welche sowohl aufsteigend als auch absteigend sortiert sein kann.
+
+![alt text](./chris/Screenshot%202026-06-27%20205040.png)
+
+![alt text](./chris/Screenshot%202026-06-27%20205219.png)
+
+Als nicht eingeloggter User ist dieselbe Tabelle zu sehen, aber nur mit der zusätzlichen Möglichkeit auf die Detailpage eines Gens zu navigieren.
+
+![alt text](./chris/Screenshot%202026-06-27%20205455.png)
+
+
+
+### Add / Update Gene
