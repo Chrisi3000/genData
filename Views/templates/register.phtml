@@ -25,8 +25,13 @@
 
                 <div class="mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" required>
-                    <div class="invalid-feedback">please enter a password.</div>
+                    <div class="input-group">
+                        <input type="password" name="password" id="passwordInput" class="form-control" required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePasswordBtn">
+                            👁️
+                        </button>
+                        <div class="invalid-feedback">please enter a password.</div>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Register</button>
@@ -44,6 +49,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('registerForm');
+            const passwordInput = document.getElementById('passwordInput');
+            const togglePasswordBtn = document.getElementById('togglePasswordBtn');
 
             // forces validation state initialization before the user starts typing
             form.checkValidity();
@@ -52,6 +59,18 @@
             form.addEventListener('input', () => {
                 form.checkValidity();
             });
+
+            // hooks interactivity to the visibility trigger element to swap cleartext mask fields
+            if (togglePasswordBtn && passwordInput) {
+                togglePasswordBtn.addEventListener('click', () => {
+                    const isPassword = passwordInput.getAttribute('type') === 'password';
+                    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                    togglePasswordBtn.textContent = isPassword ? '🙈' : '👁️';
+
+                    // re-trigger check to prevent bootstrap markup glitches during type swapping
+                    form.checkValidity();
+                });
+            }
 
             form.addEventListener('submit', function(e) {
                 if (!this.checkValidity()) {
