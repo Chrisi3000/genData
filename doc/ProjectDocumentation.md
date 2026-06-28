@@ -611,6 +611,7 @@ Diese Datei testet die Admin-Benutzerverwaltung. Sie prüft das Abrufen der Benu
 ![alt text](./chris/Screenshot%202026-06-27%20224631.png)
 
 `security.rest`
+
 Diese Datei testet sicherheitsrelevante Fehlerfälle. Dazu gehören ein SQL-Injection-Versuch beim Login, extrem lange Eingaben bei Gen-Daten und ungültige IDs wie eine negative ID beim Löschen. Damit wird geprüft, ob die Anwendung problematische Eingaben abfängt oder zumindest nicht unsicher verarbeitet.
 
 ![alt text](./chris/Screenshot%202026-06-27%20224148.png)
