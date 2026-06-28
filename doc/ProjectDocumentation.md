@@ -506,6 +506,8 @@ Hierbei noch zum Beispiel die Detail Page eines neu erstellten Gens von dem User
 
 ![alt text](./chris/Screenshot%202026-06-27%20220355.png)
 
+`http://localhost/geneData/GeneDataItem/22`
+
 Wenn eine Detail Page mit einer nicht existierenden ID aufgerufen wird, kommt man auf die Error Seite. Mit dem Button kann man wieder zur Main-Ansicht mit der Tabelle zurücknavigieren.
 
 ![alt text](./chris/Screenshot%202026-06-28%20154633.png)
