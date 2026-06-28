@@ -335,7 +335,7 @@ User können sich durch das Eingeben ihres Benutzernamens und Passwort anmelden.
 Auf der Hauptseite eines eingeloggten Users ist ein Logout Knopf und ein "Add Gene" Knopf zu sehen.
 ![img_35.png](eva/img_35.png)
 
-Wenn beim Einloggen eines bestehenden Benutzers ein falsches Passwort oder ein falscher Benutzername eingegeben wird, sollte es zu einer Fehlermeldung kommen. 
+Wenn beim Einloggen eines besteenden Benutzers ein falsches Passwort oder ein falscher Benutzername eingegeben wird, sollte es zu einer Fehlermeldung kommen. 
 
 Test mit einem falschen Passwort:<br>
 <img src="eva/img_23.png" width="300" heigth="auto"/>
@@ -364,7 +364,7 @@ Der Login für Admins funktioniert so wie bei normalen Benutzern. Jedoch sehen A
 ![img_34.png](eva/img_34.png)
 
 Neue User können sich selbst registrieren indem sie auf den "Register" Knopf drücken. Dadurch wird man auf eine Seite weitergeleitet, wo man den Vornamen, Nachnamen, Benutzernamen und ein Passwort eingeben muss.
-![img_40.png](eva/img_40.png)
+![img_40png](eva/img_40.png)
 
 Wenn alle Felder ausgewählt sind und auf "Register" gedrückt wird, wird man weitergeleitet auf die Login Seite. Der neue User sollte nun auch in der Datenbank erscheinen und man kann sich mit ihm anmelden.
 <img src="eva/img_41.png" width="300" heigth="auto"/>
@@ -386,6 +386,10 @@ Auch das eingeben eines existierendem Benutzernamens sollte zu einer Fehlermeldu
 Das Registrieren eines Users mit dem selben Vor- und Nachnamen sollte jedoch zu keinen Problemen führen und so erfolgreich durchlaufen. <br>
 <img src="eva/img_52.png" width="300" heigth="auto"/>
 ![img_53.png](eva/img_53.png)
+
+Durch Klicken auf den Affen, kann man das Passwort anzeigen oder verstecken.
+![img_54.png](eva/img_54.png)
+![img_55.png](eva/img_55.png)
 
 Eingeloggte Benutzer, also auch Admin, werden nachdem sie den "Logout" Knopf auf der Hauptseite gedrückt haben wieder auf die Login-Seite geschickt. Sie sind nun aber ausgeloggt, das heißt wenn sie auf die Hauptseite gehen, haben sie die Ansicht eines Guest-Users.
 (Hier getestet mit einem Admin.)
