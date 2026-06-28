@@ -264,7 +264,7 @@ Diese Skizze zeigt den technischen Ablauf einer Anfrage. Der Browser sendet eine
 ### Registrierung
 
 1. Anonymer Benutzer ruft `/geneData/Register` auf.
-2. Das Registrierungsformular sendet Benutzername und Passwort an den Register-Controller.
+2. Das Registrierungsformular sendet Benutzername und Passwort, sowie die eingegebenen Namen an den Register-Controller.
 3. Das Passwort wird mit `password_hash()` gehasht.
 4. Das User-Model prüft, ob der Benutzername bereits existiert.
 5. Danach wird der neue Benutzer gespeichert.
@@ -291,6 +291,12 @@ Diese Skizze zeigt den technischen Ablauf einer Anfrage. Der Browser sendet eine
 2. JavaScript sendet einen `DELETE`-Request an die Anwendung.
 3. Der Controller prüft, ob der Benutzer eingeloggt ist.
 4. Das Model löscht den Gen-Datensatz aus der Datenbank.
+
+### Fehlerbehandlung bei falscher Detail-ID
+
+Wenn eine Detailseite mit einer nicht vorhandenen ID aufgerufen wird, zum Beispiel `/geneData/GeneDataItem/999999999`, wirft das Model eine `Exceptions_NotFound`. Der Dispatcher setzt daraufhin den HTTP-Statuscode `404` und rendert das gemeinsame Error-Template.
+
+Die Fehlerseite zeigt eine einfache englische Meldung in einer zum restlichen Seitenstil passenden Box und bietet einen Button zurück zur Gene-Tabelle an.
 
 ### Benutzerverwaltung
 
@@ -323,6 +329,7 @@ JavaScript wird nicht für sicherheitsrelevante Validierung eingesetzt. Es dient
 - Anzeige der aktuell sortierten Spalte über Pfeile
 - Senden von Delete-Requests ohne separates Formular
 - Ein- und Ausblenden von Passwörtern in Login- und Registrierungsformularen
+- Darstellung einer einfachen 404-Fehlerseite, wenn eine nicht vorhandene Detailseite aufgerufen wird
 
 ## Testfälle
 
@@ -495,6 +502,10 @@ Auf der Details Page können zu jedem einzelnen Gen alle gespeicherten Daten abg
 Hierbei noch zum Beispiel die Detail Page eines neu erstellten Gens von dem User "Admin"
 
 ![alt text](./chris/Screenshot%202026-06-27%20220355.png)
+
+Wenn eine Detail Page mit einer nicht existierenden ID aufgerufen wird, kommt man auf die Error Seite. Mit dem Button kann man wieder zur Main-Ansicht mit der Tabelle zurücknavigieren.
+
+![alt text](./chris/Screenshot%202026-06-28%20154633.png)
 
 ### Add / Update Gene
 

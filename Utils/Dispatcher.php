@@ -76,8 +76,9 @@ class Utils_Dispatcher
             }
 
         } catch (Throwable $e) {
-            echo "error occurred: ";
-            echo htmlspecialchars($e->getMessage(), ENT_QUOTES, "UTF-8");
+            $statusCode = $e instanceof Exceptions_Statuscode ? $e->status_code : 500;
+            http_response_code($statusCode);
+            $view->render($e);
         }
     }
 }
