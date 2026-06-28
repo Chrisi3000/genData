@@ -155,6 +155,8 @@ Die Tabelle `user` speichert Benutzerkonten und Rolleninformationen.
 | Spalte | Typ | Beschreibung |
 |---|---|---|
 | `id` | INT, Primary Key, Auto Increment | Eindeutige Benutzer-ID |
+| `firstname` | VARCHAR(30) | Vorname des Benutzers |
+| `lastname` | VARCHAR(30) | Nachname des Benutzers |
 | `username` | VARCHAR(30), UNIQUE | Benutzername |
 | `password` | VARCHAR(65) | Passwort-Hash |
 | `is_admin` | BOOLEAN | Admin-Status |
@@ -306,7 +308,7 @@ Die Anwendung berücksichtigt folgende Sicherheitsaspekte:
 - Datenbankzugriffe mit Benutzereingaben erfolgen über PDO Prepared Statements.
 - Passwörter werden gehasht und nicht im Klartext gespeichert.
 - Kritische Aktionen werden serverseitig auf Rollen und Login-Status geprüft.
-- Textuelle Benutzereingaben werden serverseitig validiert.
+- Textuelle Benutzereingaben werden serverseitig validiert. Dazu gehören auch die Werte aus Formularen wie Login, Registrierung, Gen-Erstellung, Gen-Bearbeitung und Benutzerverwaltung.
 - User-IDs in der Benutzerverwaltung werden serverseitig geprüft, bevor Benutzer gelöscht oder Rollen geändert werden.
 - Textuelle Ausgaben aus Benutzereingaben und Datenbankwerten werden in den Views mit `htmlspecialchars()` für HTML escaped, damit gespeicherte Sonderzeichen nicht als HTML oder JavaScript ausgeführt werden.
 - Fremdschlüssel und Constraints schützen die Datenintegrität in der Datenbank.
@@ -320,6 +322,7 @@ JavaScript wird nicht für sicherheitsrelevante Validierung eingesetzt. Es dient
 - Sortieren der Gene-Tabelle per Klick auf eine Spaltenüberschrift
 - Anzeige der aktuell sortierten Spalte über Pfeile
 - Senden von Delete-Requests ohne separates Formular
+- Ein- und Ausblenden von Passwörtern in Login- und Registrierungsformularen
 
 ## Testfälle
 
@@ -335,7 +338,7 @@ User können sich durch das Eingeben ihres Benutzernamens und Passwort anmelden.
 Auf der Hauptseite eines eingeloggten Users ist ein Logout Knopf und ein "Add Gene" Knopf zu sehen.
 ![img_35.png](eva/img_35.png)
 
-Wenn beim Einloggen eines bestehenden Benutzers ein falsches Passwort oder ein falscher Benutzername eingegeben wird, sollte es zu einer Fehlermeldung kommen. 
+Wenn beim Einloggen eines besteenden Benutzers ein falsches Passwort oder ein falscher Benutzername eingegeben wird, sollte es zu einer Fehlermeldung kommen. 
 
 Test mit einem falschen Passwort:<br>
 <img src="eva/img_23.png" width="300" heigth="auto"/>
@@ -367,7 +370,7 @@ Wenn man Auf den sehenden Affen drückt, wird das Passwort in Klartext angezeigt
 ![img_34.png](eva/img_34.png)
 
 Neue User können sich selbst registrieren indem sie auf den "Register" Knopf drücken. Dadurch wird man auf eine Seite weitergeleitet, wo man den Vornamen, Nachnamen, Benutzernamen und ein Passwort eingeben muss.
-![img_40.png](eva/img_40.png)
+![img_40png](eva/img_40.png)
 
 Wenn alle Felder ausgewählt sind und auf "Register" gedrückt wird, wird man weitergeleitet auf die Login Seite. Der neue User sollte nun auch in der Datenbank erscheinen und man kann sich mit ihm anmelden.
 <img src="eva/img_41.png" width="300" heigth="auto"/>
@@ -389,6 +392,10 @@ Auch das eingeben eines existierendem Benutzernamens sollte zu einer Fehlermeldu
 Das Registrieren eines Users mit dem selben Vor- und Nachnamen sollte jedoch zu keinen Problemen führen und so erfolgreich durchlaufen. <br>
 <img src="eva/img_52.png" width="300" heigth="auto"/>
 ![img_53.png](eva/img_53.png)
+
+Durch Klicken auf den Affen, kann man das Passwort anzeigen oder verstecken.
+![img_54.png](eva/img_54.png)
+![img_55.png](eva/img_55.png)
 
 Eingeloggte Benutzer, also auch Admin, werden nachdem sie den "Logout" Knopf auf der Hauptseite gedrückt haben wieder auf die Login-Seite geschickt. Sie sind nun aber ausgeloggt, das heißt wenn sie auf die Hauptseite gehen, haben sie die Ansicht eines Guest-Users.
 (Hier getestet mit einem Admin.)
